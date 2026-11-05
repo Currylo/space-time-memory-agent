@@ -2,6 +2,16 @@
 
 更新：2026-11-05。以下状态依据前一轮本地工程检查；源码尚未导入，不能视为本仓库已复现。
 
+## 任务索引
+
+- [#1 [P0] 导入现有源码并完成第二台电脑独立复现](https://github.com/Currylo/space-time-memory-agent/issues/1)
+- [#2 [P0] 完成新版展示页浏览器验收与投屏优化](https://github.com/Currylo/space-time-memory-agent/issues/2)
+- [#3 [P1 · A1/A2] 对齐平台与规则定义，建立独立效果评价](https://github.com/Currylo/space-time-memory-agent/issues/3)
+- [#4 [P1 · A3] 接入真实场景并观察 1—2 天](https://github.com/Currylo/space-time-memory-agent/issues/4)
+- [#5 [P1 · A4] 建立区域正常基线并校准阈值](https://github.com/Currylo/space-time-memory-agent/issues/5)
+- [#6 [P1 · A5] 建设困难负样本与回归验证集](https://github.com/Currylo/space-time-memory-agent/issues/6)
+- [#7 [P2 · A6] 有基线后评估偏离评分与语义解释](https://github.com/Currylo/space-time-memory-agent/issues/7)
+
 ## 已有基础与边界
 
 - MOT20-05 连续视频 132.6 秒，一个主播放器可切换原画与分析叠加。
