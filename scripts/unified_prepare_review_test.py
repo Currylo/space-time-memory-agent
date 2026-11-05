@@ -39,6 +39,7 @@ def main() -> int:
         if row is None:
             raise SystemExit("real ledger row not found")
         candidate = json.loads(row["candidate_json"])
+        candidate = candidate.get("candidate") or candidate
     finally:
         real.close()
     test_candidate = dict(candidate)

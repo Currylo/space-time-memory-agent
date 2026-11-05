@@ -96,3 +96,7 @@ id_ed25519*
 *.sqlite-journal
 *.sqlite3-journal
 *.db-journal
+
+# Restored public handoff payloads; versioned manifest stays tracked.
+/handoff/ledger_seed.json
+/handoff/MEDIA_NOTICE.txt
