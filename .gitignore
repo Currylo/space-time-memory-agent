@@ -1,0 +1,74 @@
+# Python environments and generated caches
+.venv*/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# Build and editor output
+node_modules/
+build/
+dist/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Credentials and machine-local settings
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Original data, generated experiments and third-party checkouts.
+# Audit small required configuration/sample files before adding exact exceptions.
+/data/
+/runs/
+/demo/data/
+/demo/media/
+/upstream/
+/deploy/frigate/runtime/
+/deploy/frigate/config/
+
+# Large media, model weights and archives
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.pt
+*.pth
+*.onnx
+*.engine
+*.safetensors
+*.zip
+*.tar
+*.gz
+*.7z
+
+# Runtime databases and logs
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+
+# Keep only reviewed Markdown summaries from reports.
+/reports/**
+!/reports/**/
+!/reports/**/*.md
