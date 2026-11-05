@@ -1,0 +1,35 @@
+# A1 replacement-platform smoke setup. Actual Docker/config validation is pending.
+name: st-memory-a1
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:0.18.2
+    platform: linux/amd64
+    # /api/restart exits the process; "no" left the container stopped.
+    restart: unless-stopped
+    shm_size: "256mb"
+    cpus: 4
+    mem_limit: 4g
+    ports:
+      - "127.0.0.1:15000:5000"
+      - "127.0.0.1:8971:8971"
+    volumes:
+      - type: bind
+        source: ./runtime/config
+        target: /config
+      - type: bind
+        source: ./runtime/media
+        target: /media/frigate
+      - type: bind
+        source: ./runtime/input
+        target: /input
+        read_only: true
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 268435456
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    stop_grace_period: 30s

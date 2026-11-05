@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>时空记忆智能体 · 区域统计与规则证据</title>
+  <meta name="description" content="E04 公开样例规则功能验证：区域观测统计、停留与折返规则候选、触发依据和视频证据。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="assets/rules.css">
+</head>
+<body class="rules-page">
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2v13.6L19 12 8 5.2Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6.5 5h3.6v14H6.5zM13.9 5h3.6v14h-3.6z"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-fullscreen" viewBox="0 0 24 24"><path d="M4 9V4h5M20 15v5h-5M15 4h5v5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-exit-fullscreen" viewBox="0 0 24 24"><path d="M9 4v5H4M15 20v-5h5M20 9h-5V4M4 15h5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4.5 10a7.5 7.5 0 1 1 2.2 6.4M4.5 5.5V10H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-zone" viewBox="0 0 24 24"><path d="M4 6.5 12 3l8 3.5v11L12 21l-8-3.5v-11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 6.5 12 10l8-3.5M12 10v11" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".6"/></symbol>
+    <symbol id="i-rule" viewBox="0 0 24 24"><path d="M5 6h14M5 12h9M5 18h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="12" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="18" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-evidence" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m9.5 9 5 3-5 3V9Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 10.8V17M12 7.4v.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 21 20H3L12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.2v.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#rulesMain">跳到主要内容</a>
+
+  <section class="rules-shell">
+    <header class="app-bar rules-app-bar">
+      <div class="app-bar-left">
+        <a class="icon-button" href="index.html" aria-label="返回轨迹演示" title="返回轨迹演示">
+          <svg class="icon" aria-hidden="true"><use href="#i-back"></use></svg>
+        </a>
+        <div class="app-title">
+          <p>时空记忆智能体 · E04 公开样例</p>
+          <h1>区域统计与规则证据</h1>
+        </div>
+      </div>
+      <div class="app-bar-right">
+        <a class="pill pill-link" href="showcase.html">方案 A 演示总览</a>
+        <span class="pill pill-public">公开样例</span>
+        <span class="pill pill-offline">离线分析</span>
+        <span class="pill pill-warn">演示阈值 · 未经现场校准</span>
+        <a class="pill pill-link" href="index.html">轨迹演示（E00-D）</a>
+      </div>
+    </header>
+
+    <main id="rulesMain" class="demo-main rules-main">
+      <div id="missingBanner" class="missing-banner" role="alert" hidden>
+        <div class="missing-symbol"><svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg></div>
+        <div class="missing-copy">
+          <strong id="missingTitle">规则演示文件缺失，暂时无法播放</strong>
+          <p>请确认演示服务和规则输出完整。页面不会用占位内容代替真实结果。</p>
+          <ul id="missingList"></ul>
+        </div>
+        <button id="retryAssets" class="btn btn-secondary" type="button">重新检查</button>
+      </div>
+
+      <section class="flow-strip" aria-label="演示路径">
+        <div class="flow-step"><span>01</span><b>画面</b><small>原视频与分析回放</small></div>
+        <i class="flow-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"></use></svg></i>
+        <div class="flow-step"><span>02</span><b>区域变化</b><small>逐帧算法观测数</small></div>
+        <i class="flow-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"></use></svg></i>
+        <div class="flow-step"><span>03</span><b>规则依据</b><small>停留 / 折返条件</small></div>
+        <i class="flow-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"></use></svg></i>
+        <div class="flow-step"><span>04</span><b>视频证据</b><small>回到触发时刻核对</small></div>
+      </section>
+
+      <div class="rules-grid">
+        <section id="playerCard" class="card player-card" aria-labelledby="playerTitle">
+          <div class="panel-head player-head">
+            <div>
+              <p class="section-label">画面与区域</p>
+              <h2 id="playerTitle">区域轮廓随播放更新</h2>
+            </div>
+            <div class="sync-badge" id="syncBadge" title="两路视频按视频时刻同步">
+              <i></i><span id="syncText">两路就绪</span>
+            </div>
+          </div>
+
+          <div class="video-grid">
+            <figure class="video-frame" id="originalFrame">
+              <video id="originalVideo" src="/media/original.mp4" preload="auto" playsinline muted disablepictureinpicture></video>
+              <canvas id="originalOverlay" width="1920" height="1080" aria-hidden="true"></canvas>
+              <figcaption>
+                <span class="video-label">原视频 + 区域</span>
+                <span class="video-note">区域轮廓与证据目标</span>
+              </figcaption>
+              <div class="video-error" id="originalError" hidden>
+                <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+                <strong>原视频无法加载</strong>
+                <span>请检查 <code>data/raw/people-walking.mp4</code></span>
+              </div>
+            </figure>
+
+            <figure class="video-frame" id="replayFrame">
+              <video id="replayVideo" src="/media/analysis_replay.mp4" preload="auto" playsinline muted disablepictureinpicture></video>
+              <canvas id="replayOverlay" width="1920" height="1080" aria-hidden="true"></canvas>
+              <figcaption>
+                <span class="video-label">分析回放 + 区域</span>
+                <span class="video-note">检测框 · 轨迹编号</span>
+              </figcaption>
+              <div class="video-error" id="replayError" hidden>
+                <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+                <strong>分析回放无法加载</strong>
+                <span>请检查 <code>demo/media/analysis_replay.mp4</code></span>
+              </div>
+            </figure>
+          </div>
+
+          <div class="player-controls">
+            <button id="playPause" class="btn btn-play" type="button" aria-label="播放">
+              <svg class="icon play-icon" aria-hidden="true"><use href="#i-play"></use></svg>
+              <svg class="icon pause-icon" aria-hidden="true" hidden><use href="#i-pause"></use></svg>
+              <span id="playLabel">播放</span>
+            </button>
+            <div class="control-group">
+              <button id="back1" class="btn btn-quiet" type="button" title="后退 1 秒">
+                <svg class="icon" aria-hidden="true"><use href="#i-left"></use></svg>1 秒
+              </button>
+              <button id="forward1" class="btn btn-quiet" type="button" title="前进 1 秒">
+                1 秒<svg class="icon" aria-hidden="true"><use href="#i-right"></use></svg>
+              </button>
+            </div>
+            <div class="time-readout" aria-live="off">
+              <span id="currentTime">0.00</span>
+              <span class="time-sep">/</span>
+              <span id="durationTime">12.00</span>
+              <span class="time-unit">秒</span>
+            </div>
+            <div class="control-group control-right">
+              <button id="replayBtn" class="btn btn-quiet" type="button" title="从头播放">
+                <svg class="icon" aria-hidden="true"><use href="#i-restart"></use></svg>重播
+              </button>
+              <button id="fullscreenBtn" class="btn btn-quiet" type="button" title="全屏（F）">
+                <svg class="icon fullscreen-icon" aria-hidden="true"><use href="#i-fullscreen"></use></svg>
+                <svg class="icon exit-fullscreen-icon" aria-hidden="true" hidden><use href="#i-exit-fullscreen"></use></svg>
+                <span id="fullscreenLabel">全屏</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="timeline-block">
+            <div class="timeline-grid" id="timelineGrid">
+              <div class="timeline-main">
+                <input id="timeline" class="timeline" type="range" min="0" max="12" step="0.01" value="0" aria-label="视频播放进度，范围 0 到 12 秒">
+                <div class="timeline-ticks" aria-hidden="true">
+                  <span style="left:0%">0 秒</span>
+                  <span style="left:25%">3</span>
+                  <span style="left:50%">6</span>
+                  <span style="left:75%">9</span>
+                  <span style="left:100%">12</span>
+                </div>
+              </div>
+              <button id="timelineTail" class="timeline-tail" type="button" title="原视频后 1.64 秒未参与分析" aria-label="原视频后 1.64 秒未参与分析">
+                <span>未分析</span>
+              </button>
+            </div>
+            <div id="candidateMarkers" class="candidate-markers" aria-label="规则候选触发时刻"></div>
+            <p class="tail-note" id="tailNote">原视频全长 13.64 秒，本次分析覆盖前 12.00 秒；灰色部分为未分析的 1.64 秒。</p>
+          </div>
+
+          <p class="player-hint">空格：播放 / 暂停　← →：前后 1 秒　F：全屏　候选标记：点击回看触发时刻</p>
+        </section>
+
+        <aside class="card rule-panel" aria-labelledby="rulePanelTitle">
+          <div class="panel-head">
+            <div>
+              <p class="section-label">规则依据</p>
+              <h2 id="rulePanelTitle">规则独立开关与候选</h2>
+            </div>
+            <span class="pill pill-count"><b id="candidateCount">0</b> 条候选</span>
+          </div>
+          <p class="panel-help">所有候选统一标为 <strong>规则条件触发，待人工复核</strong>；不会自动描述为危险事件。演示阈值<strong>未经现场校准</strong>。</p>
+
+          <div id="ruleList" class="rule-list" aria-live="polite"></div>
+
+          <div class="candidate-head">
+            <div>
+              <span class="section-label">候选列表</span>
+              <h3>按视频时间排序</h3>
+            </div>
+            <button id="clearCandidate" class="btn btn-small btn-secondary" type="button">清除选择</button>
+          </div>
+          <div id="candidateList" class="candidate-list" aria-live="polite"></div>
+        </aside>
+      </div>
+
+      <div class="rules-lower-grid">
+        <section class="card zone-stats-card" aria-labelledby="zoneStatsTitle">
+          <div class="panel-head">
+            <div>
+              <p class="section-label">区域变化</p>
+              <h2 id="zoneStatsTitle">随播放时刻变化的区域统计</h2>
+            </div>
+            <span class="pill pill-neutral">算法观测 · 非人数</span>
+          </div>
+          <div id="zoneStatCards" class="zone-stat-cards"></div>
+          <div class="zone-chart-head">
+            <span>三个演示区域的逐帧观测数</span>
+            <div id="chartLegend" class="chart-legend"></div>
+          </div>
+          <div class="zone-chart-wrap">
+            <canvas id="zoneChart" width="1200" height="270" aria-label="区域观测数随时间变化曲线"></canvas>
+          </div>
+          <p class="zone-note"><svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>计数口径：该视频时刻存在跟踪点的算法目标数；同一目标跨帧按局部轨迹编号区分。<strong>不是独立人数，也不是身份统计。</strong></p>
+        </section>
+
+        <section class="card candidate-detail-card" aria-labelledby="candidateDetailTitle">
+          <div class="panel-head">
+            <div>
+              <p class="section-label">触发依据</p>
+              <h2 id="candidateDetailTitle">候选详情与证据</h2>
+            </div>
+            <span class="pill pill-neutral">待人工复核</span>
+          </div>
+          <div id="candidateDetailBody" class="candidate-detail-body">
+            <div class="detail-empty">
+              <svg class="icon" aria-hidden="true"><use href="#i-rule"></use></svg>
+              <strong>请选择左侧候选</strong>
+              <p>选择后显示规则版本、阈值、触发特征、条件满足时刻、输出时刻和原视频证据。</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card rules-boundary-card" aria-labelledby="boundaryTitle">
+        <div class="panel-head">
+          <div>
+            <p class="section-label">边界与状态</p>
+            <h2 id="boundaryTitle">本轮做到什么，哪些仍不能评价</h2>
+          </div>
+          <span class="pill pill-off">无现场 GT</span>
+        </div>
+        <div class="boundary-columns">
+          <div>
+            <h3><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>功能已通过</h3>
+            <ul>
+              <li>逐帧区域观测统计与 E03 区域派生一致。</li>
+              <li>停留规则独立运行，候选可回看证据。</li>
+              <li>折返规则独立运行并如实记录零触发。</li>
+              <li>规则只使用当前及历史观测；截断输入不改变过去触发。</li>
+            </ul>
+          </div>
+          <div>
+            <h3><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>数据不足</h3>
+            <ul>
+              <li>公开片段仅 12.00 秒，60 秒人数变化规则显示“观察时长不足”。</li>
+              <li>没有现场视频、业务区域和人工 GT，阈值未经现场校准。</li>
+              <li>区域为公开演示区域，不是出入口、交易区或禁区。</li>
+            </ul>
+          </div>
+          <div>
+            <h3><svg class="icon" aria-hidden="true"><use href="#i-lock"></use></svg>未评价</h3>
+            <ul>
+              <li>不计算检出率、误报率或现场准确率。</li>
+              <li>不评价危险、违法或需要处置的可能性。</li>
+              <li>合成轨迹只用于规则边界测试，不作为真实事件证据。</li>
+            </ul>
+          </div>
+        </div>
+        <p class="boundary-footnote" id="provenanceNote"></p>
+      </section>
+    </main>
+
+    <footer class="demo-footer">
+      <span>时空记忆智能体 · E04 公开样例规则功能验证 · v1.0.0</span>
+      <span>运行编号 <code id="demoRunId">e00-public-demo-005</code> · 仅本地运行 · 不联网</span>
+    </footer>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <div id="fatalError" class="fatal-overlay" hidden>
+    <div class="fatal-card" role="alertdialog" aria-labelledby="fatalTitle">
+      <div class="fatal-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg></div>
+      <h2 id="fatalTitle">规则演示数据未加载</h2>
+      <p id="fatalMessage">无法读取规则演示数据。请通过本地演示服务打开页面，并确认 E04 输出完整。</p>
+      <pre id="fatalDetail"></pre>
+      <button id="fatalRetry" class="btn btn-primary" type="button">重新加载</button>
+    </div>
+  </div>
+
+  <script src="assets/rules.js"></script>
+</body>
+</html>

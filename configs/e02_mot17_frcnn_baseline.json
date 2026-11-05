@@ -1,0 +1,72 @@
+{
+  "experiment": "E02",
+  "run_id": "e02-mot17-02-frcnn-yolov8n-byte-001",
+  "dataset_id": "mot17_train_mot17-02-frcnn",
+  "benchmark": "MOT17",
+  "official_split": "train",
+  "sequence": "MOT17-02-FRCNN",
+  "source_kind": "public_benchmark",
+  "evaluation_split": "public_benchmark_development",
+  "sequence_dir": "data/e02/raw/MOT17-02-FRCNN",
+  "image_dir": "data/e02/raw/MOT17-02-FRCNN/img1",
+  "image_pattern": "%06d.jpg",
+  "frame_range": [
+    1,
+    600
+  ],
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "weights": "models/yolov8n.pt",
+  "device": "0",
+  "image_size": 640,
+  "confidence": 0.1,
+  "iou": 0.7,
+  "classes": [
+    0
+  ],
+  "max_frames": 600,
+  "seed": 0,
+  "cpu_threads": 4,
+  "tracker": {
+    "track_activation_threshold": 0.25,
+    "lost_track_buffer": 30,
+    "minimum_matching_threshold": 0.8,
+    "minimum_consecutive_frames": 1
+  },
+  "evaluation": {
+    "tool": "TrackEval",
+    "repo_url": "https://github.com/JonathonLuiten/TrackEval",
+    "commit": "12c8791b303e0a0b50f753af204249e622d0281a",
+    "benchmark": "MOT17",
+    "split_to_eval": "train",
+    "classes_to_eval": [
+      "pedestrian"
+    ],
+    "metrics": [
+      "HOTA",
+      "CLEAR",
+      "Identity"
+    ],
+    "threshold": 0.5,
+    "do_preproc": true,
+    "use_parallel": false,
+    "seqmap": "MOT17-train-single",
+    "prediction_format": "MOTChallenge 10 columns: frame,id,x,y,w,h,conf,-1,-1,-1",
+    "public_detections_used_as_predictions": false,
+    "ground_truth_used_as_predictions": false,
+    "frame_numbering": "prediction frame = zero-based image index + 1; GT frame 1..600",
+    "coordinate_space": "original image pixels 1920x1080; no resize before MOT export",
+    "trackeval_numpy_compat": "np.float/np.int/np.bool aliases for NumPy >=1.24; metric code unmodified"
+  },
+  "expected": {
+    "image_count": 600,
+    "gt_rows": 30003,
+    "pedestrian_gt_rows": 18581,
+    "pedestrian_gt_ids": 62,
+    "gt_sha256": "2e3ecb488da8886d3200d402b2b08890c6d2879923839444e9b74fa43a551440",
+    "image_manifest_sha256": "29762a806c1dd511aa087eabb8c68b9e75f9db37ced296f4205481d1dc5ff699"
+  },
+  "usage_scope": "public benchmark development evaluation only; not field data; not a held-out test set; no event-rule accuracy claim",
+  "frozen_at_utc": "2026-11-04T03:40:02+00:00"
+}

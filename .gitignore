@@ -72,3 +72,27 @@ id_ed25519*
 /reports/**
 !/reports/**/
 !/reports/**/*.md
+
+# Source-import additions (existing rules above retained)
+/.cache/
+/models/
+*.bin
+*.ckpt
+*.h5
+*.hdf5
+*.tflite
+*.pkl
+*.joblib
+*.npz
+*.npy
+*.m4v
+*.ts
+*.rar
+*.bz2
+*.xz
+*.tgz
+*.egg
+*.whl
+*.sqlite-journal
+*.sqlite3-journal
+*.db-journal

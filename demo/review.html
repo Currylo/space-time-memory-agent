@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>统一复核 · 时空记忆智能体</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/showcase.css">
+  <link rel="stylesheet" href="assets/review.css">
+  <script src="assets/review.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="topbar">
+    <a class="brand" href="showcase.html"><span class="mark" aria-hidden="true">时</span><span><strong>时空记忆智能体</strong><small>公共安全监测预警 · 统一复核</small></span></a>
+    <nav aria-label="复核导航"><a href="showcase.html">返回演示总览</a><a href="index.html">轨迹页</a><a href="rules.html">规则页</a></nav>
+    <span class="mode"><i></i>本地复核 · 真实提交</span>
+  </header>
+  <main id="main">
+    <section class="intro">
+      <div><p class="eyebrow">选择线索 → 看触发依据 → 回看录像 → 留下复核意见</p><h1>统一复核操作页</h1><p class="intro-copy">三条单例均来自公开样例或平台证据。复核结论由实际证据决定，不设 confirmed / rejected / uncertain 配额；没有把握时选择 uncertain。</p></div>
+    </section>
+    <div id="error" class="error" role="alert" hidden></div>
+    <section class="review-wrap">
+      <aside class="panel">
+        <div class="panel-head"><div><p class="eyebrow">候选列表</p><h2>三类能力</h2></div></div>
+        <div id="candidateList" class="review-list"><p class="caption">正在读取候选…</p></div>
+      </aside>
+      <article class="panel review-detail">
+        <div class="panel-head"><div><p class="eyebrow" id="detailEyebrow">选择候选</p><h2 id="candidateTitle">—</h2></div><span id="statusBadge" class="badge pending">—</span></div>
+        <div class="review-body">
+          <div class="review-meta">
+            <div><small>规则依据</small><b id="ruleText">—</b></div>
+            <div><small>源视频时刻 / 条件时刻</small><b id="timeText">—</b></div>
+            <div><small>平台事件</small><b><a id="eventLink" href="#" target="_blank" rel="noopener">打开平台事件 ↗</a></b></div>
+            <div><small>证据录像</small><b><a id="clipLink" href="#" target="_blank" rel="noopener">打开录像文件 ↗</a></b></div>
+          </div>
+          <p id="candidateNote" class="caption">—</p>
+          <video id="evidenceVideo" controls preload="metadata" playsinline aria-label="候选对应的平台录像证据"></video>
+          <form id="reviewForm" class="review-form">
+            <label>复核者<input id="reviewer" name="reviewer" autocomplete="name" placeholder="请输入真实复核者姓名或标识" required></label>
+            <label>复核结论
+              <select id="decision" name="decision" required>
+                <option value="">请选择（不预设结论）</option>
+                <option value="confirmed">confirmed — 证据支持</option>
+                <option value="rejected">rejected — 证据不支持</option>
+                <option value="uncertain">uncertain — 不能确认</option>
+              </select>
+            </label>
+            <label>说明<textarea id="note" name="note" placeholder="写明看了哪段录像、哪些帧、为什么这样判断" required></textarea></label>
+            <div class="review-actions"><button id="submitReview" class="primary" type="submit">提交复核并保存历史</button><span id="reviewMessage" class="review-message"></span></div>
+          </form>
+          <div><p class="eyebrow">复核历史</p><div id="history" class="review-history"><p class="caption">尚无提交记录。</p></div></div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer><span>时空记忆智能体 · 公开样例复核页</span><span>本地只读展示 + 本地复核记录；不修改平台录像。</span></footer>
+</body>
+</html>

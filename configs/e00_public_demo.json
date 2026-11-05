@@ -1,0 +1,28 @@
+{
+  "experiment": "E00-A",
+  "site_id": "public_demo",
+  "camera_id": "public_walk_01",
+  "video_id": "roboflow_people_walking",
+  "source_kind": "public_demo",
+  "split": "development",
+  "source_group": "roboflow_people_walking_original",
+  "source_url": "https://media.roboflow.com/supervision/video-examples/people-walking.mp4",
+  "usage_scope": "local_pipeline_reproduction_only; redistribution_license_unverified",
+  "video": "data/raw/people-walking.mp4",
+  "weights": "models/yolov8n.pt",
+  "device": "0",
+  "image_size": 640,
+  "confidence": 0.1,
+  "iou": 0.7,
+  "classes": [0],
+  "max_frames": 300,
+  "seed": 0,
+  "cpu_threads": 4,
+  "tracker": {
+    "track_activation_threshold": 0.25,
+    "lost_track_buffer": 30,
+    "minimum_matching_threshold": 0.8,
+    "minimum_consecutive_frames": 1
+  },
+  "zones": []
+}

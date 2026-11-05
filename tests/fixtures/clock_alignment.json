@@ -1,0 +1,217 @@
+{
+  "description": "Numerical endpoint regression fixture extracted from a public-demo run; no media or runtime records.",
+  "live_alignment": {
+    "segments": [
+      {
+        "segment_id": "segment-00",
+        "segment_start_epoch": 1793805307.0,
+        "segment_end_epoch": 1793805317.0,
+        "first_source_time": 0.0,
+        "last_source_time": 9.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 250
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-01",
+        "segment_start_epoch": 1793805317.0,
+        "segment_end_epoch": 1793805327.0,
+        "first_source_time": 10.0,
+        "last_source_time": 19.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 500
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-02",
+        "segment_start_epoch": 1793805327.0,
+        "segment_end_epoch": 1793805337.0,
+        "first_source_time": 20.0,
+        "last_source_time": 29.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 750
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-03",
+        "segment_start_epoch": 1793805337.0,
+        "segment_end_epoch": 1793805347.0,
+        "first_source_time": 30.0,
+        "last_source_time": 39.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 1000
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-04",
+        "segment_start_epoch": 1793805347.0,
+        "segment_end_epoch": 1793805357.0,
+        "first_source_time": 40.0,
+        "last_source_time": 49.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 1250
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-05",
+        "segment_start_epoch": 1793805357.0,
+        "segment_end_epoch": 1793805367.0,
+        "first_source_time": 50.0,
+        "last_source_time": 59.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 1500
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-06",
+        "segment_start_epoch": 1793805367.0,
+        "segment_end_epoch": 1793805377.0,
+        "first_source_time": 60.0,
+        "last_source_time": 69.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 1750
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-07",
+        "segment_start_epoch": 1793805377.0,
+        "segment_end_epoch": 1793805387.0,
+        "first_source_time": 70.0,
+        "last_source_time": 79.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 2000
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-08",
+        "segment_start_epoch": 1793805387.0,
+        "segment_end_epoch": 1793805397.0,
+        "first_source_time": 80.0,
+        "last_source_time": 89.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 2250
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-09",
+        "segment_start_epoch": 1793805397.0,
+        "segment_end_epoch": 1793805407.0,
+        "first_source_time": 90.0,
+        "last_source_time": 99.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 2500
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-10",
+        "segment_start_epoch": 1793805407.0,
+        "segment_end_epoch": 1793805417.0,
+        "first_source_time": 100.0,
+        "last_source_time": 109.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 2750
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-11",
+        "segment_start_epoch": 1793805417.0,
+        "segment_end_epoch": 1793805427.0,
+        "first_source_time": 110.0,
+        "last_source_time": 119.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 3000
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-12",
+        "segment_start_epoch": 1793805427.0,
+        "segment_end_epoch": 1793805437.0,
+        "first_source_time": 120.0,
+        "last_source_time": 129.96,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 3250
+            }
+          },
+          "methods_agree": true
+        }
+      },
+      {
+        "segment_id": "segment-13",
+        "segment_start_epoch": 1793805437.0,
+        "segment_end_epoch": 1793805439.6,
+        "first_source_time": 130.0,
+        "last_source_time": 132.56,
+        "decoded": {
+          "last": {
+            "watermark": {
+              "frame_number": 3315
+            }
+          },
+          "methods_agree": true
+        }
+      }
+    ]
+  }
+}

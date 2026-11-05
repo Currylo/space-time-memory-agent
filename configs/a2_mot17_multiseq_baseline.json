@@ -1,0 +1,51 @@
+{
+  "experiment": "A2-MOT17",
+  "run_id": "a2-mot17-7seq-yolov8n-byte-001",
+  "manifest": "data/a2/mot17/sequences_manifest.json",
+  "benchmark": "MOT17",
+  "official_split": "train",
+  "source_kind": "public_benchmark",
+  "evaluation_split": "public_benchmark_development",
+  "weights": "models/yolov8n.pt",
+  "device": "0",
+  "image_size": 640,
+  "confidence": 0.1,
+  "iou": 0.7,
+  "classes": [
+    0
+  ],
+  "seed": 0,
+  "cpu_threads": 4,
+  "tracker": {
+    "track_activation_threshold": 0.25,
+    "lost_track_buffer": 30,
+    "minimum_matching_threshold": 0.8,
+    "minimum_consecutive_frames": 1
+  },
+  "evaluation": {
+    "tool": "TrackEval",
+    "repo_url": "https://github.com/JonathonLuiten/TrackEval",
+    "commit": "12c8791b303e0a0b50f753af204249e622d0281a",
+    "benchmark": "MOT17",
+    "split_to_eval": "train",
+    "classes_to_eval": [
+      "pedestrian"
+    ],
+    "metrics": [
+      "HOTA",
+      "CLEAR",
+      "Identity"
+    ],
+    "threshold": 0.5,
+    "do_preproc": true,
+    "use_parallel": false,
+    "seqmap": "MOT17-train-7",
+    "prediction_format": "MOTChallenge 10 columns: frame,id,x,y,w,h,conf,-1,-1,-1",
+    "public_detections_used_as_predictions": false,
+    "ground_truth_used_as_predictions": false,
+    "frame_numbering": "prediction frame = zero-based image index + 1; GT frame 1..seqLength",
+    "coordinate_space": "original image pixels; per-sequence width/height; no resize before MOT export"
+  },
+  "usage_scope": "public benchmark development evaluation only; not field data; not a held-out test set; no event-rule accuracy claim",
+  "frozen_at_utc": "2026-11-04T05:30:00+00:00"
+}

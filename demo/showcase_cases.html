@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>时空记忆智能体 · 方案 A 演示总览</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/showcase.css">
+  <script src="assets/showcase.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="topbar">
+    <a class="brand" href="showcase.html"><span class="mark" aria-hidden="true">时</span><span><strong>时空记忆智能体</strong><small>公共安全监测预警 · 方案 A</small></span></a>
+    <nav aria-label="演示导航"><a href="#analysis">画面与规则</a><a href="#platform">平台回放</a><a href="review.html">统一复核</a><a href="#evaluation">验证结果</a></nav>
+    <span class="mode"><i></i>公开样例 · 离线结果</span>
+  </header>
+  <main id="main">
+    <section class="intro">
+      <div><p class="eyebrow">从画面到依据，再到视频证据</p><h1>看见目标，也看清为什么被提示。</h1><p class="intro-copy">播放真实分析结果，选择一条停留候选，回到对应画面核对。当前为公开样例演示，尚未连接现场摄像头。</p></div>
+      <a class="secondary" href="rules.html">进入完整规则演示 ↗</a>
+    </section>
+    <div id="error" class="error" role="alert" hidden></div>
+    <section class="summary" aria-label="当前分析样例">
+      <div><small>有效分析时长</small><strong id="duration">—</strong><span>仅展示已分析范围</span></div>
+      <div><small>累计轨迹编号</small><strong id="trackCount">—</strong><span>局部编号，不是独立人数</span></div>
+      <div><small>演示观察区域</small><strong id="zoneCount">—</strong><span>逐帧算法观测统计</span></div>
+      <div><small>待复核停留候选</small><strong id="candidateCount">—</strong><span>规则条件触发，待人工复核</span></div>
+    </section>
+    <section id="analysis" class="analysis-grid" aria-labelledby="analysisTitle">
+      <article class="panel video-panel">
+        <div class="panel-head"><div><p class="eyebrow">01 / 分析画面</p><h2 id="analysisTitle">行人通行 · 公开样例</h2></div><span class="tag">已完成分析</span></div>
+        <div class="video-stage">
+          <video id="video" preload="metadata" playsinline muted poster="/media/preview.jpg" aria-label="行人检测和轨迹分析回放"></video>
+          <canvas id="overlay" width="1920" height="1080" aria-hidden="true"></canvas>
+          <div class="video-label">检测框 · 轨迹编号 · 观察区域</div>
+          <div id="loading" class="loading">正在读取本地分析结果…</div>
+        </div>
+        <div class="transport"><button id="play" class="primary" disabled>播放分析回放</button><button id="restart" class="secondary" disabled>从头播放</button><span id="clock" class="clock">0.00 / 12.00 秒</span></div>
+        <div class="timeline"><label class="sr-only" for="seek">视频时刻</label><input id="seek" type="range" min="0" max="12" step="0.04" value="0" disabled><div id="markers" class="markers" aria-label="候选触发时刻"></div></div>
+        <div class="zone-row" id="zoneStats" aria-live="off"></div>
+        <p class="caption">区域内数量随画面变化，为算法观测数。停留仅指在区域内持续被观察，不代表危险行为。</p>
+      </article>
+      <aside class="panel candidate-panel" aria-labelledby="candidateTitle">
+        <div class="panel-head"><div><p class="eyebrow">02 / 选择候选</p><h2 id="candidateTitle">长时间停留</h2></div><span class="tag amber">待人工复核</span></div>
+        <p class="aside-help">点击一条记录，查看触发依据和证据帧。此列表为本次完整离线结果，不是实时告警。</p>
+        <div id="candidateList" class="candidate-list"><p>正在加载候选…</p></div>
+        <div class="other-rules"><p><span>反复折返</span><b id="reversal">—</b></p><p><span>60 秒人数变化</span><b>观察时长不足</b></p></div>
+      </aside>
+    </section>
+    <section class="panel evidence" aria-labelledby="evidenceTitle">
+      <div class="panel-head"><div><p class="eyebrow">03 / 触发依据与证据</p><h2 id="evidenceTitle">选择候选后查看</h2></div><button id="evidencePlay" class="primary" disabled>回看触发前后片段</button></div>
+      <div id="evidenceFacts" class="facts"><p>每条候选均来自已保存的规则结果，可以定位到视频中的实际帧。</p></div>
+      <p id="evidenceNote" class="caption">10 秒为公开短片的演示阈值，尚未经过现场业务校准。</p>
+    </section>
+    <section id="platform" class="platform-section" aria-labelledby="platformTitle">
+      <div><p class="eyebrow">平台底座 / Frigate</p><h2 id="platformTitle">一条自研候选已进入平台，并关联录像。</h2><p>Frigate 原生回放、区域累计 10 秒门控与单例 HTTP 事件写入已有实测证据。持久 SQLite ledger 已验证重复执行跳过；真实人工提交、摔倒/人数变化和批量接入仍待补。</p><p class="caption">平台录像使用另一段 280 秒公开视频，与上方 12 秒分析样例不同。该视频由 35 秒素材重复拼接，不是多个独立场景。</p><p class="caption">摔倒单例：GMDCSA-24 S1_Fall_01 已进入 <code>a2_fall_demo</code>，clip 8.88 秒且与源视频 1:1 对齐；操作者复核为 <b>uncertain</b>。人数变化单例已用 168 秒固定机位公开 crowd-counting demo 接入，复核 pending；该视频带可视化叠加，只作流程检查。 <a href="http://127.0.0.1:15000/explore?event_id=1793791187.189385-y9t9xj" target="_blank" rel="noopener">打开摔倒事件 ↗</a> · <a href="http://127.0.0.1:15000/explore?event_id=1793792390.006841-an4d7q" target="_blank" rel="noopener">打开人数变化事件 ↗</a></p><div class="links"><a id="platformReplay" class="primary" href="http://127.0.0.1:15000/review?timestamp=a1_public_demo_1793785420" target="_blank" rel="noopener">打开已验收录像 ↗</a><a class="secondary" href="index.html">完整轨迹回溯 ↗</a><a class="secondary" href="rules.html">完整区域与规则 ↗</a></div></div>
+      <div class="integration"><div><span class="status-dot done"></span><b>平台部署与录像回放</b><small>已验收</small></div><div><span class="status-dot done"></span><b>累计 10 秒门控</b><small id="gateSeconds">读取证据中</small></div><div><span class="status-dot done"></span><b>单候选 HTTP 写入与录像</b><small>已有案例</small></div><div><span class="status-dot done"></span><b>持久去重 / 重复执行</b><small>已验证跳过</small></div><div><span class="status-dot pending"></span><b>真实人工复核提交</b><small>待操作者提交</small></div></div>
+    </section>
+    <section id="capabilities" aria-labelledby="capabilitiesTitle">
+      <div class="section-title"><div><p class="eyebrow">三类能力入口 / 公开样例</p><h2 id="capabilitiesTitle">画面、依据、平台事件、录像和复核状态</h2></div><span class="caption">单例流程检查，不是准确率或现场性能。 <a class="secondary" href="review.html">进入统一复核 ↗</a></span></div>
+      <div class="benchmark-grid">
+        <article class="benchmark">
+          <p class="eyebrow">区域停留</p><h3>轨迹与区域 → 停留候选 → 平台事件</h3>
+          <p class="caption">依据：连续可观测停留 10 秒（自研规则）；平台门控为累计语义，单例实测 10.102 秒。</p>
+          <p class="caption">复核：<b>pending_review</b>；旧 description 的 confirmed 为脚本写入，不作为人工证据。</p>
+          <div class="links"><a class="secondary" href="http://127.0.0.1:15000/explore?event_id=1793788055.850588-mx5nl8" target="_blank" rel="noopener">平台事件 ↗</a><a class="secondary" href="http://127.0.0.1:15000/api/events/1793788055.850588-mx5nl8/clip.mp4" target="_blank" rel="noopener">录像 clip ↗</a></div>
+        </article>
+        <article class="benchmark">
+          <p class="eyebrow">摔倒提示</p><h3>姿态规则候选 → 平台事件 → 对应摔倒画面</h3>
+          <p class="caption">依据：GMDCSA-24 S1_Fall_01，现有姿态规则预测 3.653—5.479 秒；clip 与源视频 1:1 对齐。</p>
+          <p class="caption">复核：<b>uncertain</b>（真实操作者提交）；不能写成摔倒确认通过。</p>
+          <div class="links"><a class="secondary" href="http://127.0.0.1:15000/explore?event_id=1793791187.189385-y9t9xj" target="_blank" rel="noopener">平台事件 ↗</a><a class="secondary" href="http://127.0.0.1:15000/api/events/1793791187.189385-y9t9xj/clip.mp4" target="_blank" rel="noopener">录像 clip ↗</a></div>
+        </article>
+        <article class="benchmark">
+          <p class="eyebrow">人数变化</p><h3>60 秒人数变化 → 平台事件 → 录像</h3>
+          <p class="caption">依据：PEDS1 168 秒固定机位公开 demo，60 秒窗口 66—126 秒，人数 2→6，持续 2 秒；视频带可视化叠加，只作流程检查。</p>
+          <p class="caption">复核：<b>pending_review</b>；不是“聚集”定义，也不是现场准确率。</p>
+          <div class="links"><a class="secondary" href="http://127.0.0.1:15000/explore?event_id=1793792390.006841-an4d7q" target="_blank" rel="noopener">平台事件 ↗</a><a class="secondary" href="http://127.0.0.1:15000/api/events/1793792390.006841-an4d7q/clip.mp4" target="_blank" rel="noopener">录像 clip ↗</a></div>
+        </article>
+      </div>
+    </section>
+    <section class="panel external-case" aria-labelledby="externalTitle">
+      <div class="panel-head"><div><p class="eyebrow">已保存的外接案例 / 不同于上方 12 秒样例</p><h2 id="externalTitle">候选 → 平台事件 → 关联录像</h2></div><a id="externalEvent" class="primary" target="_blank" rel="noopener" hidden>打开平台事件详情 ↗</a></div>
+      <div class="external-grid">
+        <div><h3>单案例操作录屏</h3><video id="closureVideo" controls preload="none" playsinline aria-label="自研候选到平台事件及追踪视频的已保存操作录屏"></video><p class="caption">已保存操作过程，不是当前实时画面。录屏中的 confirmed 为旧脚本写入的演示字段，不能单独作为真实人工复核证据；新适配器默认 pending_review。</p></div>
+        <div><h3>平台关联录像副本</h3><video id="externalClip" controls preload="none" playsinline aria-label="单例外接事件的平台关联录像副本"></video><p id="externalFacts" class="caption">正在读取案例来源…</p></div>
+      </div>
+      <p class="case-note caption">手动事件没有原生 Review 条目，区域来源保存在描述中。单例接入可用；重复执行时的自动去重、独立人工提交和批量运行仍待完善。</p>
+    </section>
+    <section class="panel roi-cases" aria-labelledby="roiTitle">
+      <div class="panel-head"><div><p class="eyebrow">更具体的观察区 / 一段原始 35 秒公开视频</p><h2 id="roiTitle">穿行、短停留与超过阈值的三例对照</h2></div></div>
+      <div id="roiFacts" class="comparison-facts"></div>
+      <details><summary>展开三例证据图</summary><img id="roiSheet" alt="三个公开案例的观察区和目标框：正常穿行、短暂停留、超过阈值停留" loading="lazy"></details>
+      <p class="caption">v2 按观测帧覆盖计时并断开超过 0.4 秒的缺口；三例均为 pending_review。原 v1 的 confirmed 由生成脚本填写，不能作为真实人工复核证据；不能用这三例计算准确率。</p>
+    </section>
+    <section id="evaluation" aria-labelledby="evaluationTitle">
+      <div class="section-title"><div><p class="eyebrow">已完成的公开数据验证</p><h2 id="evaluationTitle">能力有证据，局限也可见。</h2></div><span class="caption">以下来自已有实验结果，均不代表现场准确率。</span></div>
+      <div id="benchmarks" class="benchmark-grid"><p>正在读取评价结果…</p></div>
+      <details class="panel comparison"><summary>技术附录：平台与自研的连续 / 累计口径对照</summary><div id="comparisonFacts" class="comparison-facts"></div><div id="cumulativeFacts" class="comparison-facts"></div><p class="caption">平台原生为累计在区域内检测帧计时，实测单例约 10.10 秒；自研主规则为连续可观测停留，另保留累计口径对照。按至少 2 秒时间重叠一对一匹配。缺少独立事件 GT，不能据此判断谁更准确。</p></details>
+    </section>
+    <details class="sources"><summary>数据来源与展示边界</summary><p>本页读取已有轨迹、区域规则、平台外接案例和评价文件，不重新推理。列表显示完整离线候选；视频播放时不模拟实时告警。单例 HTTP 接入与录像关联已验证，不能外推为批量自动运行、真实人工复核或现场性能通过。</p><pre id="sourcesText"></pre></details>
+    <footer><span>时空记忆智能体 · 方案 A 公开样例阶段</span><span>演示路径：画面 → 候选 → 依据 → 视频证据</span></footer>
+  </main>
+</body>
+</html>

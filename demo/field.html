@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>现场接收准备 · 时空记忆智能体</title><link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="assets/unified.css"></head>
+<body><header class="topbar"><a class="brand" href="showcase.html"><span class="logo">时</span><span><b>时空记忆智能体</b><small>方案 A · 现场观察准备</small></span></a><a href="showcase.html">返回同源演示</a><span class="mode">A3 接收状态</span></header>
+<main><section class="intro"><div><p class="eyebrow">下一阶段 · 真实场景观察</p><h1>先核对材料，再开始现场观察。</h1><p>公开原型用于展示流程；现场观察需要真实视频、明确的区域用途和可投入的复核人员。</p></div></section>
+<article class="panel" style="padding:24px"><p class="eyebrow">当前状态</p><h2 id="status">读取中…</h2><p id="summary" style="margin-top:12px"></p><ul id="gaps"></ul><p class="caption">接收就绪只表示可以开始观察，不代表 A3 已完成，也不代表现场准确率通过。</p></article>
+<section class="roadmap"><div class="plan-grid"><article><small>01 · 视频</small><h3>1—2 路真实摄像头</h3><p>固定机位，登记原始文件、摄像头、拍摄起始时间与时区；先观察 1—2 天，记录实际有效时长与缺口。</p></article><article><small>02 · 区域</small><h3>说明正常用途与边界</h3><p>区分通道、交易、排队和等候区。现场阈值不能直接沿用公开演示的 10 秒停留。</p></article><article><small>03 · 复核</small><h3>保留实际判断与证据</h3><p>记录误报、漏报、不能确认及正常活动，保留源视频范围、规则版本和复核说明，不自动填写人工意见。</p></article></div></section>
+<article class="panel" style="padding:24px"><h2>接收与检查</h2><p style="margin-top:12px">填写主机项目目录中的 <code>data/a3/intake.json</code>，模板为 <code>data/a3/intake.template.json</code>。</p><p>由接收工具核对实际文件与哈希、可解码性、时区和区域，重叠录像只累计一次有效时长。</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere">.venv-gpu/bin/python scripts/check_a3_readiness.py</pre><p class="caption">完成接收后，按 <code>data/a3/observation.template.json</code> 记录现场发现。A4 需每区域 2—3 天正常数据，A5 需真实困难负样本；当前公开样例不替代。</p></article>
+<footer style="margin-top:24px"><span>方案 A · 现场材料未齐时如实显示缺口</span></footer></main>
+<script>
+fetch('/api/a3/readiness',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json();}).then(d=>{
+document.getElementById('status').textContent=({awaiting_field_data:'等待现场材料',ready_for_observation:'材料可用于开始观察',intake_incomplete:'接收材料仍有缺口',template_only:'当前仅有填写模板',not_checked:'尚未执行接收检查'})[d.status]||'状态待核对';
+document.getElementById('summary').textContent=`实际可核对摄像头 ${Object.keys(d.cameras||{}).length} 路 · 已核验有效时长 ${Number(d.effective_camera_hours||0).toFixed(2)} 摄像头小时`;
+const list=document.getElementById('gaps');[...(d.errors||[]),...(d.gaps||[])].forEach(x=>{const li=document.createElement('li');li.textContent=x;list.append(li);});
+}).catch(e=>{document.getElementById('status').textContent='接收状态读取失败';document.getElementById('summary').textContent=e.message;});
+</script></body></html>

@@ -1,0 +1,12 @@
+# E02 public-benchmark evaluation environment (actual, 2026-11-04)
+# Python observed: 3.12.16
+# TrackEval checkout: 12c8791b303e0a0b50f753af204249e622d0281a
+numpy==2.2.6
+scipy==1.14.1
+pandas==3.1.0
+tqdm==4.70.1
+matplotlib==3.11.2
+opencv-python==4.10.0.84
+# TrackEval's 2022 requirements pin numpy==1.18.1/scipy==1.4.1, which are not
+# compatible with Python 3.12.  This run uses the versions above plus a
+# two-line np.float/np.int alias shim; TrackEval metric code is unmodified.

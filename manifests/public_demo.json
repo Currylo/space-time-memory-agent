@@ -1,0 +1,19 @@
+{
+  "video_id": "roboflow_people_walking",
+  "camera_id": "public_walk_01",
+  "source_kind": "public_demo",
+  "split": "development",
+  "source_group": "roboflow_people_walking_original",
+  "source_url": "https://media.roboflow.com/supervision/video-examples/people-walking.mp4",
+  "usage_scope": "local_pipeline_reproduction_only; redistribution_license_unverified",
+  "path": "data/raw/people-walking.mp4",
+  "sha256": "822671fb20ed13ef9ead91d1f3678863b5aa078dd3b2ed45953fda39a61c979d",
+  "absolute_capture_time": null,
+  "timestamp_basis": "relative_seconds_frame_index_over_fps",
+  "vfr_limit": "CFR demo only; variable-frame-rate sources require decoded PTS adapter",
+  "fps": 25.0,
+  "width": 1920,
+  "height": 1080,
+  "frame_count": 341,
+  "duration_seconds": 13.64
+}

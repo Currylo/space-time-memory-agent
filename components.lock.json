@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "adapter_version": "0.1.0",
+  "captured_date": "2026-11-03",
+  "runtime_versions": {
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "ultralytics": "8.3.40",
+    "supervision": "0.25.1",
+    "numpy": "2.2.6",
+    "opencv-python": "4.10.0.84",
+    "opencv-python-headless": "4.10.0.84",
+    "scipy": "1.14.1",
+    "matplotlib": "3.11.2",
+    "pandas": "3.1.0",
+    "pillow": "13.0.0",
+    "requests": "2.34.2",
+    "psutil": "7.2.2",
+    "pyyaml": "6.0.3",
+    "tqdm": "4.70.1",
+    "defusedxml": "0.7.1",
+    "ultralytics-thop": "2.2.4",
+    "contourpy": "1.4.0",
+    "setuptools": "80.9.0",
+    "py-cpuinfo": "9.0.0",
+    "seaborn": "0.13.2"
+  },
+  "runtime_notes": [
+    "CUDA execution requires host device access; default sandbox has no GPU nodes",
+    "Existing tep-gpu conda base read-only; .venv-gpu also reads local .venv dependencies via .pth",
+    "TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 for old upstream loader and hash-locked official checkpoint",
+    "Environment snapshot; clean-room rebuild not yet verified"
+  ],
+  "components": [
+    {
+      "component": "detector",
+      "repo_url": "https://github.com/ultralytics/ultralytics",
+      "release_or_commit": "8.3.40",
+      "entrypoint": "ultralytics.YOLO.predict",
+      "license_ref": "https://github.com/ultralytics/ultralytics/blob/v8.3.40/LICENSE",
+      "license": "AGPL-3.0; official weights follow upstream terms; commercial adoption pending review",
+      "adoption_scope": "local E00 reproduction",
+      "adapter_version": "0.1.0"
+    },
+    {
+      "component": "tracker_and_visualization",
+      "repo_url": "https://github.com/roboflow/supervision",
+      "release_or_commit": "0.25.1",
+      "entrypoint": "supervision.ByteTrack.update_with_detections",
+      "license_ref": "https://pypi.org/project/supervision/0.25.1/",
+      "license": "MIT (installed package metadata)",
+      "implementation": "Supervision integrated ByteTrack, not FoundationVision original checkout",
+      "adoption_scope": "single-camera E00 reproduction",
+      "adapter_version": "0.1.0"
+    },
+    {
+      "component": "video_understanding",
+      "repo_url": "https://github.com/pipixin321/HolmesVAU",
+      "release_or_commit": "fdef61ec58e8cfa747ff5f40d7e89e9bd6f9e90d",
+      "entrypoint": "inference.py; holmesvau.holmesvau_utils.load_model/generate",
+      "status": "reproduced_on_local_gpu_with_compatibility_patches",
+      "decision": "adopt_as_E07_candidate_with_conditions",
+      "weights_ref": "https://huggingface.co/ppxin321/HolmesVAU-2B",
+      "weights_revision": "4ddd79211b9f144faa8fed08afc070f8b7c0db06",
+      "weights_hash": "1cfbaee788d91d90b09a7dfe0790e7b204922c388b02f6648fe06aaff71309e4",
+      "weights_size_bytes": 4411571040,
+      "ats_weights_ref": "upstream/HolmesVAU/holmesvau/ATS/anomaly_scorer.pth@fdef61ec58e8cfa747ff5f40d7e89e9bd6f9e90d",
+      "ats_weights_hash": "8fe8182d9a7bf61c4ec4e068a5865b3be8d9f8960f1ba8197041b0a90efbced4",
+      "ats_weights_size_bytes": 25985433,
+      "local_patches": [
+        "patches/holmesvau-ats-compatibility.patch"
+      ],
+      "license_ref": "https://github.com/pipixin321/HolmesVAU/blob/master/LICENSE",
+      "license": "Code MIT; model card MIT; ATS checkpoint has no separate license file; base InternLM2-1.8B card is 'other' and needs separate review",
+      "adoption_scope": "E00-B local runnability only; E07 interpretation quality not evaluated",
+      "run_evidence": [
+        "runs/e00b-holmesvau-001/official-robbery-001/",
+        "runs/e00b-holmesvau-001/official-robbery-002/",
+        "runs/e00b-holmesvau-001/public-people-walking-002/",
+        "runs/e00b-holmesvau-001/public-people-walking-001/ (failed compatibility attempt, retained)",
+        "reports/e00-b/run-summary.json"
+      ]
+    },
+    {
+      "component": "platform",
+      "repo_url": "https://github.com/blakeblackshear/frigate",
+      "release_or_commit": "v0.18.2",
+      "status": "source_review_only_not_deployed",
+      "license_ref": "https://github.com/blakeblackshear/frigate/blob/v0.18.2/LICENSE"
+    }
+  ],
+  "assets": {
+    "demo_video": {
+      "path": "data/raw/people-walking.mp4",
+      "url": "https://media.roboflow.com/supervision/video-examples/people-walking.mp4",
+      "source_kind": "public_demo",
+      "split": "development",
+      "license_status": "redistribution license unverified; local reproduction only",
+      "sha256": "822671fb20ed13ef9ead91d1f3678863b5aa078dd3b2ed45953fda39a61c979d",
+      "size_bytes": 7606633,
+      "checksum_origin": "measured_after_download_not_publisher_signed_digest"
+    },
+    "detector_weights": {
+      "path": "models/yolov8n.pt",
+      "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt",
+      "license_ref": "https://docs.ultralytics.com/help/FAQ/#ultralytics-yolo-licensing",
+      "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "size_bytes": 6549796,
+      "checksum_origin": "measured_after_download_not_publisher_signed_digest"
+    },
+    "holmesvau_model": {
+      "path": "models/HolmesVAU-2B/model.safetensors",
+      "url": "https://huggingface.co/ppxin321/HolmesVAU-2B/resolve/main/model.safetensors",
+      "revision": "4ddd79211b9f144faa8fed08afc070f8b7c0db06",
+      "license": "MIT per model card; base InternLM2 terms require separate review",
+      "sha256": "1cfbaee788d91d90b09a7dfe0790e7b204922c388b02f6648fe06aaff71309e4",
+      "size_bytes": 4411571040,
+      "checksum_origin": "official Hugging Face LFS oid, local SHA256 rechecked"
+    },
+    "holmesvau_ats": {
+      "path": "upstream/HolmesVAU/holmesvau/ATS/anomaly_scorer.pth",
+      "url": "https://github.com/pipixin321/HolmesVAU/blob/fdef61ec58e8cfa747ff5f40d7e89e9bd6f9e90d/holmesvau/ATS/anomaly_scorer.pth",
+      "license": "distributed in MIT-licensed repository; no separate ATS license found",
+      "sha256": "8fe8182d9a7bf61c4ec4e068a5865b3be8d9f8960f1ba8197041b0a90efbced4",
+      "size_bytes": 25985433,
+      "checksum_origin": "local measured"
+    }
+  },
+  "video_understanding_environment": {
+    "path": ".venv-holmes",
+    "python": "3.9.23",
+    "torch": "2.1.2+cu118",
+    "torchvision": "0.16.2+cu118",
+    "transformers": "4.37.2",
+    "tokenizers": "0.15.1",
+    "numpy": "1.26.2",
+    "flash_attn": "2.3.6",
+    "deepspeed": "0.13.5",
+    "matplotlib": "3.9.4",
+    "gpu": "NVIDIA GeForce RTX 3090 24576 MiB",
+    "driver": "580.178.04",
+    "notes": [
+      "Independent conda-prefix env; existing perception envs untouched",
+      "TRITON_PTXAS_PATH points to triton bundled ptxas because project path contains a space",
+      "decord 0.6.0 works but pip check reports a platform metadata warning"
+    ]
+  }
+}

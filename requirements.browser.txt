@@ -1,0 +1,2 @@
+# Optional browser acceptance tools; install Chromium or provide local Chrome.
+playwright==1.55.0

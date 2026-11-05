@@ -1,0 +1,96 @@
+{
+  "schema_version": "e04-rule-config-v2",
+  "rule_set_version": "e04-public-demo-rules-v2",
+  "created_date": "2026-11-04",
+  "calibration_status": "demo_thresholds_uncalibrated",
+  "calibration_note": "以下阈值只用于公开样例的规则功能验证，未经现场视频、业务区域或人工 GT 校准；不能当作现场阈值或危险判定标准。",
+  "scope": {
+    "run_id": "e00-public-demo-005",
+    "camera_id": "public_walk_01",
+    "zone_version": "e01-public-walk-zones-v1",
+    "zone_semantics": "public_demo_only_not_field_business_zone",
+    "distance_unit": "image_pixels",
+    "metric_claims": "disabled_no_camera_calibration"
+  },
+  "global": {
+    "max_gap_seconds": 0.4,
+    "zone_exit_tolerance_seconds": 0.24,
+    "candidate_status": "rule_condition_met_pending_review",
+    "candidate_status_label": "规则条件触发，待人工复核",
+    "frame_coverage": "frame_timestamp_is_start_left_closed_right_open_[t,t+1/fps)"
+  },
+  "rules": [
+    {
+      "rule_id": "long_stay",
+      "label": "长时间停留",
+      "version": "e04-long-stay-v2",
+      "enabled": true,
+      "calibration_status": "demo_thresholds_uncalibrated",
+      "definition": "同一轨迹在同一区域内形成连续可观测停留片段，累计有效观测帧达到演示阈值。",
+      "params": {
+        "dwell_mode": "continuous_observed_in_zone",
+        "min_continuous_observed_dwell_seconds": 10.0,
+        "min_observed_points": 50,
+        "max_gap_seconds": 0.4,
+        "zone_exit_tolerance_seconds": 0.24
+      },
+      "notes": [
+        "帧时间戳是帧起点，覆盖区间为 [t, t+1/fps)；条件满足时刻取触发帧覆盖结束。",
+        "每帧计 1/fps，不插值、不补点；短时边界抖动可容忍但不计入停留时间。",
+        "轨迹首次出现即在区域内时，进入时刻未观测，停留时长是下界。",
+        "10 秒是公开 12 秒片段的演示阈值，不是现场 P95 或业务阈值。"
+      ]
+    },
+    {
+      "rule_id": "reversal",
+      "label": "反复折返",
+      "version": "e04-reversal-v2",
+      "enabled": true,
+      "calibration_status": "demo_thresholds_uncalibrated",
+      "definition": "在因果滑动窗口内，有效方向反转数达到阈值且路径效率低于阈值；低位移、抖动和长缺口不算反转。",
+      "params": {
+        "window_seconds": 8.0,
+        "min_history_seconds": 4.0,
+        "min_observed_points": 20,
+        "smoothing": "causal_trailing_mean",
+        "smoothing_window_points": 5,
+        "min_leg_displacement_px": 80.0,
+        "min_leg_duration_seconds": 0.4,
+        "min_turn_angle_degrees": 120.0,
+        "min_effective_reversals": 3,
+        "max_path_efficiency": 0.3,
+        "min_path_length_px": 160.0,
+        "max_gap_seconds": 0.4,
+        "min_valid_motion_length_px": 160.0,
+        "collinearity_tolerance_px": 12.0
+      },
+      "notes": [
+        "有效反转要求前后两段位移均超过像素阈值，排除原地抖动。",
+        "路径长度或有效运动段不足时路径效率记为不可计算，规则不触发；静止目标不能直接判为折返。",
+        "沿同一直线往返并回到起点时，净位移接近零仍可因充分路径和有效反转触发。",
+        "长缺口把轨迹切成独立片段，不跨缺口连线或累计反转。",
+        "3 次有效反转沿用实验文档初始定义，未为了制造候选而调低。"
+      ]
+    },
+    {
+      "rule_id": "occupancy_change_60s",
+      "label": "60 秒区域人数变化",
+      "version": "e04-occupancy-change-60s-v2",
+      "enabled": true,
+      "calibration_status": "demo_thresholds_uncalibrated",
+      "definition": "60 秒窗口内，同一区域的算法观测目标数由 <3 变为 ≥6，并持续 2 秒。",
+      "params": {
+        "window_seconds": 60.0,
+        "from_below": 3,
+        "to_at_least": 6,
+        "sustain_seconds": 2.0,
+        "min_observation_seconds": 60.0
+      },
+      "notes": [
+        "当前公开片段仅 12.0 秒，规则应显示观察时长不足，不能缩短窗口冒充原定义已验证。",
+        "区域人数是算法观测数量，不是独立人数；遮挡、ID 碎片和采样率都会影响计数。",
+        "即使未来在公开片段上触发，也不能替代现场人数 GT 评价。"
+      ]
+    }
+  ]
+}

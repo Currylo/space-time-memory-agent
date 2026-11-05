@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light"><title>时空记忆智能体 · 同源视频联合分析</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/unified.css"><link rel="stylesheet" href="assets/review.css"><script src="assets/unified.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="topbar"><a class="brand" href="showcase.html"><span class="logo">时</span><span><b>时空记忆智能体</b><small>公共安全 · 视频线索研判</small></span></a><nav><a href="#workspace">视频回看</a><a href="#clues">发现线索</a><a href="#technical">技术详情</a></nav><span class="mode">离线分析回放</span></header>
+  <main id="main">
+    <section class="intro"><div><p class="eyebrow">视频线索研判</p><h1>从发现线索，到人工确认。</h1><p>一段视频同步分析停留、摔倒与人数变化，每条线索均可查看依据、回看录像，再由人工确认。</p></div><div class="sample-info"><span id="sourceName">正在加载同源视频…</span><small id="sourceSpec">正在读取元数据</small></div></section>
+    <ol class="workflow" aria-label="线索研判流程"><li><span>01</span><div><b>发现线索</b><small id="clueOverview" aria-live="polite">正在汇总本次分析</small></div><a href="#clues">查看线索 ↓</a></li><li><span>02</span><div><b>查看依据</b><small>了解触发原因与证据时刻</small></div></li><li><span>03</span><div><b>回看录像</b><small>回到原画面，核对完整过程</small></div></li><li><span>04</span><div><b>人工确认</b><small>填写结论，保留复核记录</small></div></li></ol>
+    <div class="coverage-toolbar"><label for="profileSelect">分析版本 <select id="profileSelect"><option value="coverage">人员覆盖增强版</option><option value="baseline">旧版平台闭环</option></select></label><p id="coverageNotice">正在读取分析版本…</p></div>
+    <div id="error" class="error" role="alert" hidden></div>
+    <section id="workspace" class="workspace">
+      <article class="video-panel panel">
+        <div class="panel-header"><div><span class="eyebrow">同一视频 · 三类线索</span><h2 id="sceneTitle">MOT20-05 · 公开观察场景</h2></div><div class="segmented" role="group" aria-label="画面模式"><button id="analysisMode" class="active" aria-pressed="true">分析叠加</button><button id="originalMode" aria-pressed="false">原始画面</button></div></div>
+        <div class="stage" id="stage"><video id="sceneVideo" preload="metadata" playsinline muted aria-label="同一原序列视频的联合分析回放"></video><canvas id="overlay" aria-hidden="true"></canvas><div class="stage-top"><span id="frameLabel">同源联合分析</span><span>同一摄像头 · 同一视频时刻</span></div><div id="mediaMessage" class="media-message">正在加载实际视频文件…</div></div>
+        <div class="controls"><button id="play" class="primary" disabled>播放</button><button id="restart" disabled>重播</button><button id="back" disabled aria-label="后退一秒">−1 秒</button><button id="forward" disabled aria-label="前进一秒">+1 秒</button><label class="speed">速度 <select id="speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option><option value="0.5">0.5×</option></select></label><span id="clock" class="clock">0.00 / — 秒</span><button id="fullscreen" disabled>全屏</button></div>
+        <label class="sr-only" for="seek">共同视频时间轴</label><input id="seek" class="seek" type="range" min="0" max="1" step="0.04" value="0" disabled>
+        <div class="chart-header"><span>观察区算法观测数</span><span>点击曲线可定位视频 · 竖线为当前时刻</span></div><canvas id="countChart" width="1000" height="100" role="img" aria-label="同一视频的逐帧区域目标观测数与当前时刻"></canvas>
+        <div class="live-stats"><div><small>检测到的目标</small><b id="detected">—</b></div><div><small>已关联轨迹</small><b id="tracked">—</b></div><div><small>区域内正在计时</small><b id="zoneCount">—</b></div><div><small>当前最长可观测停留</small><b id="dwell">—</b></div><div><small>当前有效姿态</small><b id="poseCount">—</b></div></div>
+        <div class="person-inspector"><p id="coverageBreakdown" class="caption"></p><p id="personSummary">点击目标查看计时。</p><details><summary>查看当前全部轨迹与停留时间</summary><div id="personList" class="person-list"></div></details></div>
+        <details class="inline-details"><summary>算法观测说明</summary><p class="caption panel-caption">框与编号来自算法观测；叠加更新频率为 <span id="sampleFps">—</span> FPS，原视频时刻保持连续。编号不代表身份，观测数不等于区域真实人数。漏检、未建轨和轨迹断开均可能造成停留漏统计；区域外不累计区域停留。</p></details>
+      </article>
+      <aside class="rules-panel">
+        <div class="side-heading"><h2>当前画面分析</h2><span class="tag">随视频同步</span></div>
+        <article class="rule-card" data-kind="stay"><div class="rule-heading"><span class="rule-icon teal">01</span><div><h3>区域停留</h3><small>同一轨迹 · 同一观察区</small></div></div><p class="rule-definition">连续可观测停留达到 10 秒，生成待复核线索。</p><div class="rule-status"><b id="stayStatus">读取中</b><span id="stayCount">—</span></div><div id="stayMeter" class="meter"><i></i></div></article>
+        <article class="rule-card" data-kind="fall"><div class="rule-heading"><span class="rule-icon purple">02</span><div><h3>摔倒提示</h3><small>同一轨迹 · 姿态与运动</small></div></div><p class="rule-definition">结合姿态和运动变化提示疑似摔倒，交由人工核对。</p><div class="rule-status"><b id="fallStatus">读取中</b><span id="fallCount">—</span></div><p class="rule-footnote">遮挡或姿态置信度不足时显示“姿态不足”，不判定正常。</p></article>
+        <article class="rule-card" data-kind="crowd"><div class="rule-heading"><span class="rule-icon amber">03</span><div><h3>人数变化</h3><small>同一区域 · 完整 60 秒窗口</small></div></div><p class="rule-definition">比较观察区内的人数变化，提示需要关注的时段。</p><div class="rule-status"><b id="crowdStatus">读取中</b><span id="crowdCount">—</span></div><div id="crowdMeter" class="meter amber-meter"><i></i></div></article>
+        <div class="scope-note"><b>线索需人工判断</b><p>当前为离线分析回放。未触发不代表没有事件；线索不等于已确认事件。</p></div>
+      </aside>
+    </section>
+    <section id="clues" class="panel candidates">
+      <div class="panel-header"><div><span class="eyebrow">01 · 发现线索</span><h2>本次视频发现的线索</h2></div><div id="filters" class="segmented" role="group" aria-label="线索类型"><button class="active" data-kind="all">全部</button><button data-kind="stay">停留</button><button data-kind="fall">摔倒</button><button data-kind="crowd">人数变化</button></div></div>
+      <div class="platform-strip"><span id="platformSummary" class="platform-tag">平台接入读取中…</span></div>
+      <p class="caption list-help">选择一条线索，查看触发依据与关联录像。结论由实际复核者填写。</p>
+      <div id="candidateList" class="candidate-list">正在读取真实候选…</div>
+      <div id="candidateDetail" class="candidate-detail" hidden></div>
+      <section id="platformDetail" class="platform-detail" hidden>
+        <div class="platform-detail-head"><div><p class="eyebrow">02 · 查看依据</p><h3 id="platformCandidateTitle" tabindex="-1">—</h3></div><span id="platformStatusBadge" class="badge pending">—</span></div>
+        <p id="evidenceReason" class="evidence-reason"></p>
+        <div class="platform-grid">
+          <details class="evidence-appendix technical-facts"><summary>规则窗口与平台记录</summary><div class="platform-facts">
+            <div><small>规则依据</small><b id="platformRule">—</b></div>
+            <div><small>证据帧 / 条件时刻</small><b id="platformTimes">—</b></div>
+            <div><small>完整规则窗口</small><b id="platformWindow">—</b></div>
+            <div><small>平台事件</small><b><a id="eventLink" href="#" target="_blank" rel="noopener">—</a></b></div>
+            <div><small>录像状态</small><b id="platformClipStatus">—</b></div>
+            <div><small>复核状态</small><b id="platformReviewStatus">—</b></div>
+          </div></details>
+          <div class="platform-media"><h3 class="step-heading">03 · 回看录像</h3><p class="caption">核对线索前后的完整过程，也可返回上方主画面回看。</p>
+            <div id="evidenceMessage" class="evidence-message">选择线索后显示平台录像。</div>
+            <video id="evidenceVideo" controls preload="metadata" playsinline aria-label="候选对应的平台录像证据"></video>
+            <div class="evidence-actions"><button id="playWindow" type="button" disabled>在共同视频中定位规则窗口</button><a id="clipLink" href="#" target="_blank" rel="noopener">打开录像文件 ↗</a></div>
+          </div>
+        </div>
+        <details id="evidenceAppendix" class="evidence-appendix"><summary>证据图与窗口依据</summary><div class="evidence-figures"><figure><img id="windowChart" alt="规则窗口内的计数或停留依据"><figcaption id="windowChartCaption">—</figcaption></figure><figure><img id="evidenceImage" alt="源视频与平台录像同帧对照"><figcaption>左为源视频，右为平台录像；烧录帧号用于核对同源内容。</figcaption></figure></div></details>
+        <h3 class="step-heading review-heading">04 · 人工确认</h3><p class="caption">看完依据和录像后提交判断；无法判断时可选择“不能确认”。</p>
+        <form id="reviewForm" class="review-form">
+          <label>复核者<input id="reviewer" name="reviewer" autocomplete="name" placeholder="请输入真实复核者姓名或标识" required></label>
+          <label>复核结论<select id="decision" name="decision" required><option value="">请选择（不预设结论）</option><option value="confirmed">证据支持</option><option value="rejected">证据不支持</option><option value="uncertain">不能确认</option></select></label>
+          <label>说明<textarea id="note" name="note" placeholder="写明看了哪段录像、哪一帧、为什么这样判断" required></textarea></label>
+          <div class="review-actions"><button id="submitReview" class="primary" type="submit" disabled>提交复核并保存历史</button><span id="reviewMessage" class="review-message">默认待复核，由实际操作者填写。</span></div>
+        </form>
+        <div><p class="eyebrow">复核历史</p><div id="reviewHistory" class="review-history"><p class="caption">尚无提交记录；真实复核待人。</p></div></div>
+      </section>
+
+    </section>
+    <details id="technical" class="provenance technical"><summary>技术详情与方案进展 <span>来源、时钟核验、规则参数及方案 A</span></summary><div class="technical-body"><p class="history-link"><a href="field.html">A3 现场接收准备与实际缺口 ↗</a></p><h3>运行状态与时钟核验</h3><p id="platformClockText" class="caption"></p>
+      <p class="caption panel-caption" id="platformFootnote">平台事件、录像与复核状态来自本次同源回放 ledger；历史三类平台案例保留在独立入口，其事件 ID 不会冒充本次线索。</p><details id="roadmap" class="roadmap-details"><summary>老师方案 A · 各阶段进展</summary>    <section class="roadmap"><div class="section-header"><p class="eyebrow">与老师方案 A 对照</p><h2>公开原型已搭起，下一步进入真实场景。</h2><p>方案 A 的目标是验证平台、暴露阈值偏差并对齐需求。A2 功能检查与后续效果评价分别记录。</p></div><div class="plan-grid"><article><small>A1 · 平台基础</small><h3>主要功能已跑通</h3><p>部署、检测、录像、门控、外部事件与复核适配可用。保留 Frigate 与原方案技术栈的区别。</p></article><article><small>A2 · 公开数据</small><h3>链路可用，定义待对齐</h3><p>三类单例有证据；本页新增同源联合分析。停留型提示与徘徊、人数变化与聚集的口径仍需业务确认。</p></article><article><small>A3 · 真实视频观察</small><h3>等待现场输入</h3><p>接入 1—2 路真实视频，观察 1—2 天，记录误报和漏报的具体模式。</p></article><article><small>A4 · 区域阈值</small><h3>尚未开展现场校准</h3><p>每个区域 2—3 天正常数据，形成停留／人数分布、区域阈值版本及校准前后对照。</p></article><article><small>A5 · 困难负样本</small><h3>尚缺现场压测集</h3><p>人工筛选蹲取、搬运、正常聚集、等人等；按原方案每类至少 200 段。</p></article><article><small>A6 · 可选增强</small><h3>暂列后续</h3><p>偏离评分、语义解释依赖正常基线。优先完成场景观察和校准。</p></article></div></section>
+</details><p class="history-link"><a href="showcase_cases.html">查看历史平台案例 ↗</a></p></div></details>
+    <details class="provenance"><summary>来源、版本与运行边界</summary><div id="provenance"></div></details>
+    <footer><span>时空记忆智能体 · 方案 A 公开原型</span><span>一个原序列视频 · 一个时间轴 · 三类规则</span></footer>
+  </main>
+</body>
+</html>

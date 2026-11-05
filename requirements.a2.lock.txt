@@ -1,0 +1,16 @@
+# Historical environment snapshot; see docs/SOURCE_IMPORT.md before installing.
+# A2 experiment environment (actual versions observed on 2026-11-04)
+# This is an experiment lock, not a rebuild guarantee.  The project's main
+# runtime locks remain requirements.runtime.lock.txt and requirements.e02.lock.txt.
+numpy==2.2.6
+scipy==1.14.1
+pandas==3.1.0
+scikit-learn==1.9.1
+matplotlib==3.11.2
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+torch==2.15.0
+torchvision==0.29.2
+ultralytics==8.3.40
+supervision==0.25.1
+lapx==0.13.0

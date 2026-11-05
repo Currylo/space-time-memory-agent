@@ -1,0 +1,11 @@
+{
+  "experiment": "A2-MOT17-TRACKER-ONLY",
+  "run_prefix": "a2-mot17-tracker-only",
+  "manifest": "data/a2/mot17/sequences_manifest.json",
+  "detections_run": "runs/a2-mot17-7seq-yolov8n-byte-001",
+  "trackers": {
+    "bytetrack": "bytetrack.yaml",
+    "botsort": "botsort.yaml"
+  },
+  "note": "Both trackers receive the same cached YOLOv8n detections; no detector is re-run. Tracker parameters are the Ultralytics defaults in the named YAML files."
+}

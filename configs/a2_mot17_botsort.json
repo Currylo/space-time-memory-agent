@@ -1,0 +1,17 @@
+{
+  "experiment": "A2-MOT17-BOTSORT",
+  "run_id": "a2-mot17-7seq-yolov8n-botsort-001",
+  "manifest": "data/a2/mot17/sequences_manifest.json",
+  "weights": "models/yolov8n.pt",
+  "tracker_yaml": "botsort.yaml",
+  "device": "0",
+  "image_size": 640,
+  "confidence": 0.1,
+  "iou": 0.7,
+  "classes": [
+    0
+  ],
+  "seed": 0,
+  "usage_scope": "public benchmark development evaluation only; BoT-SORT reference, not a tracker-only ablation",
+  "tracker_note": "Ultralytics model.track uses BoT-SORT default parameters from botsort.yaml; detection and association are coupled."
+}

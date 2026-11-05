@@ -1,0 +1,27 @@
+diff --git a/holmesvau/ATS/Temporal_Sampler.py b/holmesvau/ATS/Temporal_Sampler.py
+index 635c8c8..a06240d 100644
+--- a/holmesvau/ATS/Temporal_Sampler.py
++++ b/holmesvau/ATS/Temporal_Sampler.py
+@@ -7,7 +7,10 @@ class Temporal_Sampler():
+     def __init__(self, ckpt_path, device):
+         self.device = device
+         self.anomaly_scorer = URDMU().to(device)
+-        self.anomaly_scorer.load_state_dict(torch.load(ckpt_path))
++        # E00-B local compatibility patch: the released checkpoint stores CUDA
++        # device 2 tensors; map them to the single available device instead of
++        # requiring a multi-GPU machine.
++        self.anomaly_scorer.load_state_dict(torch.load(ckpt_path, map_location=device))
+         self.tau = 0.1
+ 
+     def get_anomaly_scores(self, pixel_values, model):
+@@ -42,7 +45,9 @@ class Temporal_Sampler():
+         anomaly_score = self.get_anomaly_scores(pixel_values, model)
+         num_frames = anomaly_score.shape[0]
+         if num_frames <= select_frames or sum(anomaly_score) < 1:
+-            sampled_idxs = list(np.rint(np.linspace(0, num_frames-1, select_frames)))
++            # E00-B compatibility patch: np.rint returns float64, but the
++            # upstream generate() uses these values as Python list indices.
++            sampled_idxs = [int(round(x)) for x in np.linspace(0, num_frames - 1, select_frames)]
+             return anomaly_score, sampled_idxs
+         else:
+             scores = [score + self.tau for score in anomaly_score]
